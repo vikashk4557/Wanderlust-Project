@@ -12,7 +12,7 @@ const ejsMate= require("ejs-mate");
 
 const ExpressError=require("./utils/ExpressError.js");
 const session=require("express-session");
-const MongoStore = require("connect-mongo");
+const { MongoStore } = require("connect-mongo");
 const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
@@ -64,13 +64,13 @@ store.on("error", (err) => {
 const sessionOptions={
     store,
     secret: process.env.SECRET,
-    resave:false,
-    saveUninitialized: true,
-    cookie:{
-        expires:Date.now()+7*24*60*60*1000,
-        maxAge:7*24*60*60*1000,
-        httpOnly:true,
-    }
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    },
 };
 
 
@@ -94,6 +94,7 @@ app.use((req,res,next)=>{
     res.locals.currUser = req.user;
     next();
 });
+
 
 
 
