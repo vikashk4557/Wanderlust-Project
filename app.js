@@ -25,7 +25,6 @@ const userRouter=require("./routes/user.js");
 const { on } = require("events");
 
 
-// const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl=process.env.ATLASDB_URL;
 
 
@@ -73,11 +72,6 @@ const sessionOptions={
     },
 };
 
-
-app.get("/", (req, res) => {
-    res.render("listings/index.ejs");
-});
-
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -102,18 +96,7 @@ app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
 
-// app.get("/testlisting",async(req, res)=>{
-//     let sampleListing= new Listing({
-//         title:"My new Villa",
-//         description:"By the beach",
-//         price:1200,
-//         location:"Colangute, Goa",
-//         country:"India",
-//     });
-//     await sampleListing.save();
-//     console.log("sample was saved");
-//     res.send("Successful testing");
-// });
+
 app.all("/*splat",(req, res, next)=>{
     next(new ExpressError(404,"page not found"));
 });
